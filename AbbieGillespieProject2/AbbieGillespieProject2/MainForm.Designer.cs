@@ -34,6 +34,7 @@
             wordLbl = new Label();
             lettersLbl = new Label();
             lettersTxtBox = new TextBox();
+            validWordsListBox = new ListBox();
             SuspendLayout();
             // 
             // letterLbl1
@@ -91,11 +92,21 @@
             lettersTxtBox.TabIndex = 5;
             lettersTxtBox.TextAlign = HorizontalAlignment.Center;
             // 
+            // validWordsListBox
+            // 
+            validWordsListBox.FormattingEnabled = true;
+            validWordsListBox.ItemHeight = 25;
+            validWordsListBox.Location = new Point(545, 25);
+            validWordsListBox.Name = "validWordsListBox";
+            validWordsListBox.Size = new Size(416, 529);
+            validWordsListBox.TabIndex = 6;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(983, 592);
+            Controls.Add(validWordsListBox);
             Controls.Add(lettersTxtBox);
             Controls.Add(lettersLbl);
             Controls.Add(wordLbl);
@@ -116,5 +127,6 @@
         private Label wordLbl;
         private Label lettersLbl;
         private TextBox lettersTxtBox;
+        private ListBox validWordsListBox;
     }
 }

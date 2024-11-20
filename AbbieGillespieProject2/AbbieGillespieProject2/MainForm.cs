@@ -1,3 +1,7 @@
+using System.Collections;
+using System.Text.Json;
+using AbbieGillespieProject2.DictionaryWords;
+
 namespace AbbieGillespieProject2
 {
     public partial class MainForm : Form
@@ -5,12 +9,14 @@ namespace AbbieGillespieProject2
         public MainForm()
         {
             InitializeComponent();
+            WordsInDictionary();
             GetLetters();
         }
 
         private List<char> letterList = new List<char>();
         private Random random = new Random();
         private char[] currLetters = new char[7];
+        private List<string>? dictionaryWords;
 
         private void GetLetters()
         {
@@ -59,7 +65,89 @@ namespace AbbieGillespieProject2
 
         private void submitBtn_Click(object sender, EventArgs e)
         {
+            string word = inputTxtBox.Text.ToLower();
 
+            if (word.Length < 3)
+            {
+                MessageBox.Show("Word must be 3 or more letters long.");
+                return;
+            }
+
+            if (!IsWordValid(word))
+            {
+                MessageBox.Show($"{word} is not valid.");
+                return;
+            }
+
+            if (dictionaryWords != null && dictionaryWords.Contains(word))
+            {
+                validWordsListBox.Items.Add(word);
+                RemoveUsedLetters(word);
+                inputTxtBox.Clear();
+            }
+            else
+            {
+                MessageBox.Show($"{word} is not in the dictionary");
+            }
+            
         }
+
+        private bool IsWordValid(string word)
+        {
+            List<char> availableLetters = new List<char>(currLetters);
+
+            foreach (char letter in word)
+            {
+                if (!availableLetters.Contains(letter))
+                {
+                    return false;
+                }
+                availableLetters.Remove(letter);
+            }
+            return true;
+        }
+
+        private void RemoveUsedLetters(string word)
+        {
+            foreach (char letter in word)
+            {
+                int index = Array.IndexOf(currLetters, letter);
+                if (index != -1)
+                {
+                    currLetters[index] = ' ';
+                }
+            }
+
+            DisplayLetters();
+        }
+
+        private void WordsInDictionary()
+        {
+            string fileLocation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "dictionary.json");
+
+            if (File.Exists(fileLocation))
+            {
+                string jsonData = File.ReadAllText(fileLocation);
+
+                var dictionaryEntries = JsonSerializer.Deserialize<List<AbbieGillespieProject2.DictionaryWords.DictionaryWords>>(jsonData);
+
+                if (dictionaryEntries != null)
+                {
+                    dictionaryWords = dictionaryEntries
+                        .SelectMany(entry => entry.words)
+                        .ToList();
+                }
+                else
+                {
+                    MessageBox.Show("Failed to parse dictionary.json.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Dictionary file not found.");
+            }
+        }
+
+
     }
 }
