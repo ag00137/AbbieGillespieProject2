@@ -44,6 +44,8 @@
             threeMinutesToolStripMenuItem = new ToolStripMenuItem();
             startGameBtn = new Button();
             startNewGameBtn = new Button();
+            exitGameBtn = new Button();
+            twistLettersBtn = new Button();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -188,11 +190,33 @@
             startNewGameBtn.UseVisualStyleBackColor = true;
             startNewGameBtn.Click += startNewGameBtn_Click;
             // 
+            // exitGameBtn
+            // 
+            exitGameBtn.Location = new Point(494, 532);
+            exitGameBtn.Name = "exitGameBtn";
+            exitGameBtn.Size = new Size(112, 34);
+            exitGameBtn.TabIndex = 12;
+            exitGameBtn.Text = "Exit Game";
+            exitGameBtn.UseVisualStyleBackColor = true;
+            exitGameBtn.Click += exitGameBtn_Click;
+            // 
+            // twistLettersBtn
+            // 
+            twistLettersBtn.Location = new Point(338, 132);
+            twistLettersBtn.Name = "twistLettersBtn";
+            twistLettersBtn.Size = new Size(139, 34);
+            twistLettersBtn.TabIndex = 13;
+            twistLettersBtn.Text = "Twist Letters";
+            twistLettersBtn.UseVisualStyleBackColor = true;
+            twistLettersBtn.Click += twistLettersBtn_Click;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(983, 592);
+            Controls.Add(twistLettersBtn);
+            Controls.Add(exitGameBtn);
             Controls.Add(startNewGameBtn);
             Controls.Add(startGameBtn);
             Controls.Add(timeLeftLbl);
@@ -232,5 +256,7 @@
         private ToolStripMenuItem threeMinutesToolStripMenuItem;
         private Button startGameBtn;
         private Button startNewGameBtn;
+        private Button exitGameBtn;
+        private Button twistLettersBtn;
     }
 }

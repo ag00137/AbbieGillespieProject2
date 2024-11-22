@@ -217,8 +217,19 @@ namespace AbbieGillespieProject2
             validWordsListBox.Items.Clear();
             GetLetters();
             CurrentTime = 60;
-            timeLeftLbl.Text= CurrentTime.ToString();
+            timeLeftLbl.Text = CurrentTime.ToString();
             gameTimer.Start();
+        }
+
+        private void exitGameBtn_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void twistLettersBtn_Click(object sender, EventArgs e)
+        {
+            currLetters = currLetters.OrderBy(x => random.Next()).ToArray();
+            DisplayLetters();
         }
     }
 }
