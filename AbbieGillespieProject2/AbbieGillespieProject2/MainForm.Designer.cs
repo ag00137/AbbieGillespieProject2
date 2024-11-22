@@ -35,6 +35,16 @@
             lettersLbl = new Label();
             lettersTxtBox = new TextBox();
             validWordsListBox = new ListBox();
+            timeLbl = new Label();
+            timeLeftLbl = new Label();
+            menuStrip1 = new MenuStrip();
+            timerOptionsToolStripMenuItem = new ToolStripMenuItem();
+            oneMinuteToolStripMenuItem = new ToolStripMenuItem();
+            twoMinutesToolStripMenuItem = new ToolStripMenuItem();
+            threeMinutesToolStripMenuItem = new ToolStripMenuItem();
+            startGameBtn = new Button();
+            startNewGameBtn = new Button();
+            menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // letterLbl1
@@ -98,14 +108,95 @@
             validWordsListBox.ItemHeight = 25;
             validWordsListBox.Location = new Point(545, 25);
             validWordsListBox.Name = "validWordsListBox";
-            validWordsListBox.Size = new Size(416, 529);
+            validWordsListBox.Size = new Size(416, 204);
             validWordsListBox.TabIndex = 6;
+            // 
+            // timeLbl
+            // 
+            timeLbl.AutoSize = true;
+            timeLbl.Location = new Point(12, 43);
+            timeLbl.Name = "timeLbl";
+            timeLbl.Size = new Size(54, 25);
+            timeLbl.TabIndex = 7;
+            timeLbl.Text = "Time:";
+            // 
+            // timeLeftLbl
+            // 
+            timeLeftLbl.AutoSize = true;
+            timeLeftLbl.Location = new Point(72, 43);
+            timeLeftLbl.Name = "timeLeftLbl";
+            timeLeftLbl.Size = new Size(32, 25);
+            timeLeftLbl.TabIndex = 8;
+            timeLeftLbl.Text = "60";
+            // 
+            // menuStrip1
+            // 
+            menuStrip1.ImageScalingSize = new Size(24, 24);
+            menuStrip1.Items.AddRange(new ToolStripItem[] { timerOptionsToolStripMenuItem });
+            menuStrip1.Location = new Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Size = new Size(983, 33);
+            menuStrip1.TabIndex = 9;
+            menuStrip1.Text = "menuStrip1";
+            // 
+            // timerOptionsToolStripMenuItem
+            // 
+            timerOptionsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { oneMinuteToolStripMenuItem, twoMinutesToolStripMenuItem, threeMinutesToolStripMenuItem });
+            timerOptionsToolStripMenuItem.Name = "timerOptionsToolStripMenuItem";
+            timerOptionsToolStripMenuItem.Size = new Size(141, 29);
+            timerOptionsToolStripMenuItem.Text = "Timer Options";
+            timerOptionsToolStripMenuItem.Click += timerOptionsToolStripMenuItem_Click;
+            // 
+            // oneMinuteToolStripMenuItem
+            // 
+            oneMinuteToolStripMenuItem.Name = "oneMinuteToolStripMenuItem";
+            oneMinuteToolStripMenuItem.Size = new Size(222, 34);
+            oneMinuteToolStripMenuItem.Text = " one minute";
+            oneMinuteToolStripMenuItem.Click += oneMinuteToolStripMenuItem_Click;
+            // 
+            // twoMinutesToolStripMenuItem
+            // 
+            twoMinutesToolStripMenuItem.Name = "twoMinutesToolStripMenuItem";
+            twoMinutesToolStripMenuItem.Size = new Size(222, 34);
+            twoMinutesToolStripMenuItem.Text = "two minutes";
+            twoMinutesToolStripMenuItem.Click += twoMinutesToolStripMenuItem_Click;
+            // 
+            // threeMinutesToolStripMenuItem
+            // 
+            threeMinutesToolStripMenuItem.Name = "threeMinutesToolStripMenuItem";
+            threeMinutesToolStripMenuItem.Size = new Size(222, 34);
+            threeMinutesToolStripMenuItem.Text = "three minutes";
+            threeMinutesToolStripMenuItem.Click += threeMinutesToolStripMenuItem_Click;
+            // 
+            // startGameBtn
+            // 
+            startGameBtn.Location = new Point(12, 97);
+            startGameBtn.Name = "startGameBtn";
+            startGameBtn.Size = new Size(112, 34);
+            startGameBtn.TabIndex = 10;
+            startGameBtn.Text = "Start Game";
+            startGameBtn.UseVisualStyleBackColor = true;
+            startGameBtn.Click += startGameBtn_Click;
+            // 
+            // startNewGameBtn
+            // 
+            startNewGameBtn.Location = new Point(12, 546);
+            startNewGameBtn.Name = "startNewGameBtn";
+            startNewGameBtn.Size = new Size(156, 34);
+            startNewGameBtn.TabIndex = 11;
+            startNewGameBtn.Text = "Start New Game";
+            startNewGameBtn.UseVisualStyleBackColor = true;
+            startNewGameBtn.Click += startNewGameBtn_Click;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(983, 592);
+            Controls.Add(startNewGameBtn);
+            Controls.Add(startGameBtn);
+            Controls.Add(timeLeftLbl);
+            Controls.Add(timeLbl);
             Controls.Add(validWordsListBox);
             Controls.Add(lettersTxtBox);
             Controls.Add(lettersLbl);
@@ -113,8 +204,12 @@
             Controls.Add(submitBtn);
             Controls.Add(inputTxtBox);
             Controls.Add(letterLbl1);
+            Controls.Add(menuStrip1);
+            MainMenuStrip = menuStrip1;
             Name = "MainForm";
             Text = "Text Twist by Gillespie";
+            menuStrip1.ResumeLayout(false);
+            menuStrip1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -128,5 +223,14 @@
         private Label lettersLbl;
         private TextBox lettersTxtBox;
         private ListBox validWordsListBox;
+        private Label timeLbl;
+        private Label timeLeftLbl;
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem timerOptionsToolStripMenuItem;
+        private ToolStripMenuItem oneMinuteToolStripMenuItem;
+        private ToolStripMenuItem twoMinutesToolStripMenuItem;
+        private ToolStripMenuItem threeMinutesToolStripMenuItem;
+        private Button startGameBtn;
+        private Button startNewGameBtn;
     }
 }

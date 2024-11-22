@@ -1,22 +1,32 @@
 using System.Collections;
 using System.Text.Json;
 using AbbieGillespieProject2.DictionaryWords;
+using Timer = System.Windows.Forms.Timer;
 
 namespace AbbieGillespieProject2
 {
     public partial class MainForm : Form
     {
+        private List<char> letterList = new List<char>();
+        private Random random = new Random();
+        private char[] currLetters = new char[7];
+        private List<string>? dictionaryWords;
+        private readonly Timer gameTimer;
+        private int CurrentTime;
+
         public MainForm()
         {
             InitializeComponent();
             WordsInDictionary();
             GetLetters();
-        }
 
-        private List<char> letterList = new List<char>();
-        private Random random = new Random();
-        private char[] currLetters = new char[7];
-        private List<string>? dictionaryWords;
+            CurrentTime = 60;
+            timeLeftLbl.Text = CurrentTime.ToString();
+
+            gameTimer = new Timer();
+            gameTimer.Interval = 1000;
+            gameTimer.Tick += TimerOnTick;
+        }
 
         private void GetLetters()
         {
@@ -81,6 +91,8 @@ namespace AbbieGillespieProject2
 
             if (dictionaryWords != null && dictionaryWords.Contains(word))
             {
+                int score = CalculateScore(word);
+                MessageBox.Show($"{word} is valid! Score: {score}");
                 validWordsListBox.Items.Add(word);
                 RemoveUsedLetters(word);
                 inputTxtBox.Clear();
@@ -89,7 +101,7 @@ namespace AbbieGillespieProject2
             {
                 MessageBox.Show($"{word} is not in the dictionary");
             }
-            
+
         }
 
         private bool IsWordValid(string word)
@@ -148,6 +160,65 @@ namespace AbbieGillespieProject2
             }
         }
 
+        private int CalculateScore(string word)
+        {
+            int length = word.Length;
+            switch (length)
+            {
+                case 3: return 90;
+                case 4: return 160;
+                case 5: return 250;
+                case 6: return 360;
+                case 7: return 490;
+                default: return 0;
+            }
+        }
 
+        private void TimerOnTick(object? sender, EventArgs e)
+        {
+            CurrentTime--;
+            timeLeftLbl.Text = CurrentTime.ToString();
+
+            if (CurrentTime <= 0)
+            {
+                gameTimer.Stop();
+            }
+        }
+
+        private void timerOptionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void oneMinuteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CurrentTime = 60;
+            timeLeftLbl.Text = CurrentTime.ToString();
+        }
+
+        private void twoMinutesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CurrentTime = 120;
+            timeLeftLbl.Text = CurrentTime.ToString();
+        }
+
+        private void threeMinutesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CurrentTime = 180;
+            timeLeftLbl.Text = CurrentTime.ToString();
+        }
+
+        private void startGameBtn_Click(object sender, EventArgs e)
+        {
+            gameTimer.Start();
+        }
+
+        private void startNewGameBtn_Click(object sender, EventArgs e)
+        {
+            validWordsListBox.Items.Clear();
+            GetLetters();
+            CurrentTime = 60;
+            timeLeftLbl.Text= CurrentTime.ToString();
+            gameTimer.Start();
+        }
     }
 }
