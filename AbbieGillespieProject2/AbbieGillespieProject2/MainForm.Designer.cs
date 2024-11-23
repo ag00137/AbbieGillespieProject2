@@ -49,6 +49,9 @@
             invalidWordsListBox = new ListBox();
             validWordsLbl = new Label();
             invalidWordsLbl = new Label();
+            highScoreBoardBtn = new Button();
+            label1 = new Label();
+            playerNameTxtBox = new TextBox();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -242,11 +245,40 @@
             invalidWordsLbl.TabIndex = 16;
             invalidWordsLbl.Text = "Invalid Words:";
             // 
+            // highScoreBoardBtn
+            // 
+            highScoreBoardBtn.Location = new Point(12, 396);
+            highScoreBoardBtn.Name = "highScoreBoardBtn";
+            highScoreBoardBtn.Size = new Size(169, 34);
+            highScoreBoardBtn.TabIndex = 17;
+            highScoreBoardBtn.Text = "High Score Board";
+            highScoreBoardBtn.UseVisualStyleBackColor = true;
+            highScoreBoardBtn.Click += highScoreBoardBtn_Click;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(208, 33);
+            label1.Name = "label1";
+            label1.Size = new Size(115, 25);
+            label1.TabIndex = 18;
+            label1.Text = "Player Name:";
+            // 
+            // playerNameTxtBox
+            // 
+            playerNameTxtBox.Location = new Point(329, 30);
+            playerNameTxtBox.Name = "playerNameTxtBox";
+            playerNameTxtBox.Size = new Size(150, 31);
+            playerNameTxtBox.TabIndex = 19;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(983, 592);
+            Controls.Add(playerNameTxtBox);
+            Controls.Add(label1);
+            Controls.Add(highScoreBoardBtn);
             Controls.Add(invalidWordsLbl);
             Controls.Add(validWordsLbl);
             Controls.Add(invalidWordsListBox);
@@ -296,5 +328,8 @@
         private ListBox invalidWordsListBox;
         private Label validWordsLbl;
         private Label invalidWordsLbl;
+        private Button highScoreBoardBtn;
+        private Label label1;
+        private TextBox playerNameTxtBox;
     }
 }

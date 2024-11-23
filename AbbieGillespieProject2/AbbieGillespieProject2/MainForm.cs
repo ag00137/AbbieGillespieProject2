@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text.Json;
 using AbbieGillespieProject2.DictionaryWords;
@@ -20,6 +21,8 @@ namespace AbbieGillespieProject2
         private int totalScore = 0;
         private List<WordDetail> validWordDetails = new List<WordDetail>();
         private List<WordDetail> invalidWordDetails = new List<WordDetail>();
+        private List<HighScore> highScores = new List<HighScore>();
+        private const string HighScoreFile = "highscores.json";
 
         public MainForm()
         {
@@ -33,6 +36,8 @@ namespace AbbieGillespieProject2
             gameTimer = new Timer();
             gameTimer.Interval = 1000;
             gameTimer.Tick += TimerOnTick;
+
+            LoadHighScores();
         }
 
         private void GetLetters()
@@ -106,7 +111,7 @@ namespace AbbieGillespieProject2
             {
                 AddValidWord(word, score);
                 totalScore += score;
-                
+
                 MessageBox.Show($"{word} is valid! Score: {score}");
                 string wordDet = $"{word}, {score}, {CurrentTime} seconds";
                 validWordsListBox.Items.Add(wordDet);
@@ -146,7 +151,16 @@ namespace AbbieGillespieProject2
                 int index = Array.IndexOf(currLetters, letter);
                 if (index != -1)
                 {
-                    currLetters[index] = ' ';
+                    if (letterList.Count > 0)
+                    {
+                        int newLetterIndex = random.Next(letterList.Count);
+                        currLetters[index] = letterList[newLetterIndex];
+                        letterList.RemoveAt(newLetterIndex);
+                    }
+                    else
+                    {
+                        currLetters[index] = ' ';
+                    }
                 }
             }
 
@@ -295,14 +309,67 @@ namespace AbbieGillespieProject2
 
         private void EndOfRound()
         {
+            string playerName = GetPlayerName();
+            highScores.Add(new HighScore
+            {
+                PlayerName = playerName,
+                Score = totalScore,
+                Time = 60 - CurrentTime
+            });
+
+            SaveHighScores();
+
             string validWordsSum = string.Join("\n", validWordDetails.Select(v => $"{v.Word} {v.Points} points (Time Entered: {v.TimeEntered} seconds)"));
             string invalidWordsSum = string.Join("\n", invalidWordDetails.Select(m => $"{m.Word} (Reason: {m.Reason}; Time Entered: {m.TimeEntered} seconds)"));
 
-            MessageBox.Show($"Round Over\n Total Round Score: {totalScore}\n\n Valid Words:\n {validWordsSum}\n\n Invlaid Words:\n {invalidWordsSum}");
+            MessageBox.Show($"Round Over\nTotal Round Score: {totalScore}\n\nValid Words:\n{validWordsSum}\n\nInvlaid Words:\n{invalidWordsSum}");
             validWordsListBox.Items.Clear();
             invalidWordsListBox.Items.Clear();
             inputTxtBox.Clear();
+            CurrentTime = 60;
             GetLetters();
         }
+
+        private string GetPlayerName()
+        {
+            return playerNameTxtBox.Text;
+        }
+
+        private void highScoreBoardBtn_Click (object sender, EventArgs e)
+        {
+            var sortedScores = highScores
+                .OrderByDescending(h => h.Score)
+                .ThenBy(h => h.Time)            
+                .ToList();
+
+            string scoreBoard = string.Join("\n", sortedScores.Select((h, i) =>
+                $"{i + 1}. {h.PlayerName} - Score: {h.Score}, Time: {h.Time} seconds"));
+
+            MessageBox.Show(scoreBoard, "High Score Board");
+        }
+
+        public class HighScore
+        {
+            public string PlayerName { get; set; } = string.Empty;
+            public int Score { get; set; }
+            public int Time { get; set; }
+        }
+
+        private void SaveHighScores()
+        {
+            string json = JsonSerializer.Serialize(highScores);
+            File.WriteAllText(HighScoreFile, json);
+        }
+
+        private void LoadHighScores()
+        {
+            if (File.Exists(HighScoreFile))
+            {
+                string json = File.ReadAllText(HighScoreFile);
+                highScores = JsonSerializer.Deserialize<List<HighScore>>(json) ?? new List<HighScore>();
+            }
+        }
+
+
     }
 }
