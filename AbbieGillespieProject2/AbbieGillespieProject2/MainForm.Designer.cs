@@ -46,6 +46,9 @@
             startNewGameBtn = new Button();
             exitGameBtn = new Button();
             twistLettersBtn = new Button();
+            invalidWordsListBox = new ListBox();
+            validWordsLbl = new Label();
+            invalidWordsLbl = new Label();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -108,7 +111,7 @@
             // 
             validWordsListBox.FormattingEnabled = true;
             validWordsListBox.ItemHeight = 25;
-            validWordsListBox.Location = new Point(545, 25);
+            validWordsListBox.Location = new Point(545, 43);
             validWordsListBox.Name = "validWordsListBox";
             validWordsListBox.Size = new Size(416, 204);
             validWordsListBox.TabIndex = 6;
@@ -210,11 +213,43 @@
             twistLettersBtn.UseVisualStyleBackColor = true;
             twistLettersBtn.Click += twistLettersBtn_Click;
             // 
+            // invalidWordsListBox
+            // 
+            invalidWordsListBox.FormattingEnabled = true;
+            invalidWordsListBox.ItemHeight = 25;
+            invalidWordsListBox.Location = new Point(545, 282);
+            invalidWordsListBox.Name = "invalidWordsListBox";
+            invalidWordsListBox.Size = new Size(416, 204);
+            invalidWordsListBox.TabIndex = 14;
+            // 
+            // validWordsLbl
+            // 
+            validWordsLbl.AutoSize = true;
+            validWordsLbl.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            validWordsLbl.Location = new Point(547, 15);
+            validWordsLbl.Name = "validWordsLbl";
+            validWordsLbl.Size = new Size(119, 25);
+            validWordsLbl.TabIndex = 15;
+            validWordsLbl.Text = "Valid Words:";
+            // 
+            // invalidWordsLbl
+            // 
+            invalidWordsLbl.AutoSize = true;
+            invalidWordsLbl.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            invalidWordsLbl.Location = new Point(545, 254);
+            invalidWordsLbl.Name = "invalidWordsLbl";
+            invalidWordsLbl.Size = new Size(135, 25);
+            invalidWordsLbl.TabIndex = 16;
+            invalidWordsLbl.Text = "Invalid Words:";
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(983, 592);
+            Controls.Add(invalidWordsLbl);
+            Controls.Add(validWordsLbl);
+            Controls.Add(invalidWordsListBox);
             Controls.Add(twistLettersBtn);
             Controls.Add(exitGameBtn);
             Controls.Add(startNewGameBtn);
@@ -258,5 +293,8 @@
         private Button startNewGameBtn;
         private Button exitGameBtn;
         private Button twistLettersBtn;
+        private ListBox invalidWordsListBox;
+        private Label validWordsLbl;
+        private Label invalidWordsLbl;
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using System.Text.Json;
 using AbbieGillespieProject2.DictionaryWords;
 using Timer = System.Windows.Forms.Timer;
@@ -13,6 +14,12 @@ namespace AbbieGillespieProject2
         private List<string>? dictionaryWords;
         private readonly Timer gameTimer;
         private int CurrentTime;
+        private List<string> validWords = new List<string>();
+        private List<string> invalidWords = new List<string>();
+        private List<RoundInfo> roundHistory = new List<RoundInfo>();
+        private int totalScore = 0;
+        private List<WordDetail> validWordDetails = new List<WordDetail>();
+        private List<WordDetail> invalidWordDetails = new List<WordDetail>();
 
         public MainForm()
         {
@@ -76,6 +83,8 @@ namespace AbbieGillespieProject2
         private void submitBtn_Click(object sender, EventArgs e)
         {
             string word = inputTxtBox.Text.ToLower();
+            string reason = string.Empty;
+            int score = CalculateScore(word);
 
             if (word.Length < 3)
             {
@@ -85,23 +94,34 @@ namespace AbbieGillespieProject2
 
             if (!IsWordValid(word))
             {
-                MessageBox.Show($"{word} is not valid.");
+                AddInvalidWord(word, "Word contains a letter not shown.");
+                reason = "Word contains a letter not shown.";
+                string wordDet = $"{word}, {reason}, {CurrentTime} seconds";
+                invalidWordsListBox.Items.Add(wordDet);
+                MessageBox.Show($"{word} contains a letter not shown.");
                 return;
             }
 
             if (dictionaryWords != null && dictionaryWords.Contains(word))
             {
-                int score = CalculateScore(word);
+                AddValidWord(word, score);
+                totalScore += score;
+                
                 MessageBox.Show($"{word} is valid! Score: {score}");
-                validWordsListBox.Items.Add(word);
+                string wordDet = $"{word}, {score}, {CurrentTime} seconds";
+                validWordsListBox.Items.Add(wordDet);
                 RemoveUsedLetters(word);
                 inputTxtBox.Clear();
             }
             else
             {
+                AddInvalidWord(word, "Not found in dictionary");
+                reason = "Not found in dictionary";
+                string wordDet = $"{word}, {reason}, {CurrentTime} seconds";
+                invalidWordsListBox.Items.Add(wordDet);
+                inputTxtBox.Clear();
                 MessageBox.Show($"{word} is not in the dictionary");
             }
-
         }
 
         private bool IsWordValid(string word)
@@ -131,6 +151,37 @@ namespace AbbieGillespieProject2
             }
 
             DisplayLetters();
+        }
+
+
+
+        private void AddValidWord(string word, int score)
+        {
+            validWordDetails.Add(new WordDetail
+            {
+                Word = word,
+                Points = score,
+                TimeEntered = CurrentTime
+            });
+        }
+
+        public void AddInvalidWord(string word, string reason)
+        {
+            invalidWordDetails.Add(new WordDetail
+            {
+                Word = word,
+                Points = 0,
+                TimeEntered = CurrentTime,
+                Reason = reason
+            });
+        }
+
+        public class WordDetail
+        {
+            public string Word { get; set; } = string.Empty;
+            public int Points { get; set; }
+            public int TimeEntered { get; set; }
+            public string Reason { get; set; } = string.Empty;
         }
 
         private void WordsInDictionary()
@@ -182,6 +233,7 @@ namespace AbbieGillespieProject2
             if (CurrentTime <= 0)
             {
                 gameTimer.Stop();
+                EndOfRound();
             }
         }
 
@@ -215,6 +267,8 @@ namespace AbbieGillespieProject2
         private void startNewGameBtn_Click(object sender, EventArgs e)
         {
             validWordsListBox.Items.Clear();
+            invalidWordsListBox.Items.Clear();
+            inputTxtBox.Clear();
             GetLetters();
             CurrentTime = 60;
             timeLeftLbl.Text = CurrentTime.ToString();
@@ -230,6 +284,25 @@ namespace AbbieGillespieProject2
         {
             currLetters = currLetters.OrderBy(x => random.Next()).ToArray();
             DisplayLetters();
+        }
+
+        public class RoundInfo
+        {
+            public required List<string> ValidWords { get; set; }
+            public required List<string> InvalidWords { get; set; }
+            public int Score { get; set; }
+        }
+
+        private void EndOfRound()
+        {
+            string validWordsSum = string.Join("\n", validWordDetails.Select(v => $"{v.Word} {v.Points} points (Time Entered: {v.TimeEntered} seconds)"));
+            string invalidWordsSum = string.Join("\n", invalidWordDetails.Select(m => $"{m.Word} (Reason: {m.Reason}; Time Entered: {m.TimeEntered} seconds)"));
+
+            MessageBox.Show($"Round Over\n Total Round Score: {totalScore}\n\n Valid Words:\n {validWordsSum}\n\n Invlaid Words:\n {invalidWordsSum}");
+            validWordsListBox.Items.Clear();
+            invalidWordsListBox.Items.Clear();
+            inputTxtBox.Clear();
+            GetLetters();
         }
     }
 }
