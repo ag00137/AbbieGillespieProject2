@@ -52,6 +52,8 @@
             highScoreBoardBtn = new Button();
             label1 = new Label();
             playerNameTxtBox = new TextBox();
+            resetHighScoresBtn = new Button();
+            exportStatsBtn = new Button();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -72,7 +74,7 @@
             // 
             // submitBtn
             // 
-            submitBtn.Location = new Point(289, 312);
+            submitBtn.Location = new Point(352, 265);
             submitBtn.Name = "submitBtn";
             submitBtn.Size = new Size(112, 34);
             submitBtn.TabIndex = 2;
@@ -188,7 +190,7 @@
             // 
             // startNewGameBtn
             // 
-            startNewGameBtn.Location = new Point(12, 546);
+            startNewGameBtn.Location = new Point(12, 137);
             startNewGameBtn.Name = "startNewGameBtn";
             startNewGameBtn.Size = new Size(156, 34);
             startNewGameBtn.TabIndex = 11;
@@ -198,7 +200,7 @@
             // 
             // exitGameBtn
             // 
-            exitGameBtn.Location = new Point(494, 532);
+            exitGameBtn.Location = new Point(12, 466);
             exitGameBtn.Name = "exitGameBtn";
             exitGameBtn.Size = new Size(112, 34);
             exitGameBtn.TabIndex = 12;
@@ -247,7 +249,7 @@
             // 
             // highScoreBoardBtn
             // 
-            highScoreBoardBtn.Location = new Point(12, 396);
+            highScoreBoardBtn.Location = new Point(12, 179);
             highScoreBoardBtn.Name = "highScoreBoardBtn";
             highScoreBoardBtn.Size = new Size(169, 34);
             highScoreBoardBtn.TabIndex = 17;
@@ -271,11 +273,33 @@
             playerNameTxtBox.Size = new Size(150, 31);
             playerNameTxtBox.TabIndex = 19;
             // 
+            // resetHighScoresBtn
+            // 
+            resetHighScoresBtn.Location = new Point(13, 336);
+            resetHighScoresBtn.Name = "resetHighScoresBtn";
+            resetHighScoresBtn.Size = new Size(168, 34);
+            resetHighScoresBtn.TabIndex = 20;
+            resetHighScoresBtn.Text = "Reset High Scores";
+            resetHighScoresBtn.UseVisualStyleBackColor = true;
+            resetHighScoresBtn.Click += resetHighScoresBtn_Click;
+            // 
+            // exportStatsBtn
+            // 
+            exportStatsBtn.Location = new Point(12, 406);
+            exportStatsBtn.Name = "exportStatsBtn";
+            exportStatsBtn.Size = new Size(116, 34);
+            exportStatsBtn.TabIndex = 21;
+            exportStatsBtn.Text = "Export Stats";
+            exportStatsBtn.UseVisualStyleBackColor = true;
+            exportStatsBtn.Click += exportStatsBtn_Click;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(983, 592);
+            ClientSize = new Size(983, 512);
+            Controls.Add(exportStatsBtn);
+            Controls.Add(resetHighScoresBtn);
             Controls.Add(playerNameTxtBox);
             Controls.Add(label1);
             Controls.Add(highScoreBoardBtn);
@@ -331,5 +355,7 @@
         private Button highScoreBoardBtn;
         private Label label1;
         private TextBox playerNameTxtBox;
+        private Button resetHighScoresBtn;
+        private Button exportStatsBtn;
     }
 }

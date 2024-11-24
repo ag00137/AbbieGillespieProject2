@@ -7,6 +7,9 @@ using Timer = System.Windows.Forms.Timer;
 
 namespace AbbieGillespieProject2
 {
+    /// <summary>
+    /// Represents the main form of the apllication.
+    /// </summary>
     public partial class MainForm : Form
     {
         private List<char> letterList = new List<char>();
@@ -24,6 +27,9 @@ namespace AbbieGillespieProject2
         private List<HighScore> highScores = new List<HighScore>();
         private const string HighScoreFile = "highscores.json";
 
+        /// <summary>
+        /// Initializes the component for the class.
+        /// </summary>
         public MainForm()
         {
             InitializeComponent();
@@ -167,8 +173,6 @@ namespace AbbieGillespieProject2
             DisplayLetters();
         }
 
-
-
         private void AddValidWord(string word, int score)
         {
             validWordDetails.Add(new WordDetail
@@ -179,7 +183,7 @@ namespace AbbieGillespieProject2
             });
         }
 
-        public void AddInvalidWord(string word, string reason)
+        private void AddInvalidWord(string word, string reason)
         {
             invalidWordDetails.Add(new WordDetail
             {
@@ -190,6 +194,9 @@ namespace AbbieGillespieProject2
             });
         }
 
+        /// <summary>
+        /// Gets the information about the the word entered.
+        /// </summary>
         public class WordDetail
         {
             public string Word { get; set; } = string.Empty;
@@ -300,6 +307,9 @@ namespace AbbieGillespieProject2
             DisplayLetters();
         }
 
+        /// <summary>
+        /// Gets the information for the round.
+        /// </summary>
         public class RoundInfo
         {
             public required List<string> ValidWords { get; set; }
@@ -335,11 +345,11 @@ namespace AbbieGillespieProject2
             return playerNameTxtBox.Text;
         }
 
-        private void highScoreBoardBtn_Click (object sender, EventArgs e)
+        private void highScoreBoardBtn_Click(object sender, EventArgs e)
         {
             var sortedScores = highScores
                 .OrderByDescending(h => h.Score)
-                .ThenBy(h => h.Time)            
+                .ThenBy(h => h.Time)
                 .ToList();
 
             string scoreBoard = string.Join("\n", sortedScores.Select((h, i) =>
@@ -348,6 +358,9 @@ namespace AbbieGillespieProject2
             MessageBox.Show(scoreBoard, "High Score Board");
         }
 
+        /// <summary>
+        /// Creates an instance for the high score board.
+        /// </summary>
         public class HighScore
         {
             public string PlayerName { get; set; } = string.Empty;
@@ -370,6 +383,23 @@ namespace AbbieGillespieProject2
             }
         }
 
+        private void resetHighScoresBtn_Click(object sender, EventArgs e)
+        {
+            highScores.Clear();
+            SaveHighScores();
+            MessageBox.Show("High Score Board has been reset.");
+        }
 
+        private void exportStatsBtn_Click(object sender, EventArgs e)
+        {
+            if (roundHistory.Count == 0)
+            {
+                exportStatsBtn.Enabled = false;
+            }
+
+            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Text_Twist_Stats.json");
+            File.WriteAllText(filePath, JsonSerializer.Serialize(roundHistory));
+            MessageBox.Show($"Stats have been saved to {filePath}");
+        }
     }
 }
